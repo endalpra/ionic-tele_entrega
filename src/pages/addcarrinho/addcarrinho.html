@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{selectedItem.nome}}</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+<!--Botão do carrinho-->
+<ion-fab right middle *ngIf="!this.provedor.carrinhoVazio()">
+  <button (click)="irCarrinho()" ion-fab color="primary"><ion-icon name="cart"></ion-icon></button>
+</ion-fab>
+<!--Fim botão carrinho-->
+
+<ion-content>
+
+  <ion-card>
+    <!--<ion-item *ngFor="let ing of selectedItem.ingredientes">
+      <ion-label>{{ing.nome}}</ion-label>
+      <ion-checkbox value="ing.nome" color="primary" checked="true"></ion-checkbox>
+    </ion-item>-->
+    <ion-item *ngFor="let ing of selectedItem.ingredientes">
+      <ion-label>{{ ing.nome }}</ion-label>
+      <ion-checkbox [(ngModel)]="checkItems[ing.nome]" value="ing.nome" [checked]="ing.nome"></ion-checkbox>
+    </ion-item>
+    
+    <ion-item>
+      <ion-textarea [(ngModel)]="obs" placeholder="Se desejar, escreva alguma observação para este item ..."></ion-textarea>
+  </ion-item>
+
+    <div style="margin-left: 17px">
+      <button (click)='subQtd()' small ion-button icon-only>
+        <ion-icon name='remove-circle'></ion-icon>
+      </button>
+      <button small clear ion-button icon-only>
+        <ion-input style="width: 50px" [(ngModel)]='qtd_item' disabled type="number"></ion-input>
+      </button>
+      <button (click)='addQtd()' small ion-button icon-only>
+        <ion-icon name='add-circle'></ion-icon>
+      </button>
+    </div>
+    <hr>
+    <p class="right rs">Total: R$ {{total}}</p>
+  </ion-card>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="">
+    <ion-title>
+      <button (click)="addCarrinho()" ion-button full color="secondary">
+        <ion-icon name="cart"></ion-icon> Adicionar ao carrinho
+      </button>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

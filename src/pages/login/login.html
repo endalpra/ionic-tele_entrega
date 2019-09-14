@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-title style="text-align:center">Login</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="formgroup">
+    <ion-card-header>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <!--<ion-input [(ngModel)]="email" type="email" required></ion-input>
+                -->
+          <ion-input type="email" [(ngModel)]="credential.email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="( email.hasError('required') || email.hasError('email') ) && (email.touched || formSubmetido)">
+          <p class="erro"> Informe um email válido</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Senha</ion-label>
+          <!--<ion-input [(ngModel)]="senha" type="password" required></ion-input>
+          -->
+          <ion-input type="password" [(ngModel)]="credential.senha" formControlName="senha"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="senha.hasError('required') && (senha.touched || formSubmetido)">
+          <p class="erro"> Informe a senha</p>
+        </ion-item>
+      </ion-list>
+      <button (click)="entrar()" ion-button full color="primary">Entrar</button>
+      <button (click)="irCadastroPage()" ion-button full color="secondary">Cadastre-se</button>
+      <button (click)="irResetarPage()" ion-button full color="light">Esqueceu a senha?</button>
+      <!--<div style="text-align: center">
+        <a href="">Esqueceu a senha?</a>
+      </div>-->
+    </ion-card-header>
+  </form>
+</ion-content>

@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-title style="text-align:center">Resetar senha</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!sucesso">
+  <form [formGroup]="formgroup">
+    <ion-card-header>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <ion-input type="email" [(ngModel)]="credential.email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="( email.hasError('required') || email.hasError('email') ) && (email.touched || formSubmetido)">
+          <p class="erro"> Informe um email válido</p>
+        </ion-item>
+      </ion-list>
+      <button (click)="enviar()" ion-button full color="secondary">Enviar</button>
+    </ion-card-header>
+  </form>
+</ion-content>
+
+<ion-content *ngIf="sucesso">
+  <ion-card class="sucesso-resetar">
+    <ion-card-content>
+      Sua requisição foi feita com sucesso. Verifique sua caixa de entrada. Se o email não estiver na caixa de entrada verifique
+      a pasta Spam ou Lixo Eletrônico e siga as orientações.
+    </ion-card-content>
+  </ion-card>
+</ion-content>

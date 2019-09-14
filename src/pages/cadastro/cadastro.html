@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <button *ngIf="this.estaLogado()" ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title *ngIf="!this.estaLogado()">Cadastro</ion-title>
+      <ion-title *ngIf="this.estaLogado()">Conta</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formgroup">
+    <ion-card-header>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Nome</ion-label>
+          <ion-input formControlName="nome" [(ngModel)]="dados.nome" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="nome.hasError('required') && (nome.touched || formSubmetido)">
+          <p class="erro"> Informe seu nome completo</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Telefone</ion-label>
+          <ion-input formControlName="telefone" [(ngModel)]="dados.telefone" type="number"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="telefone.hasError('required') && (telefone.touched || formSubmetido)">
+          <p class="erro"> Informe seu telefone. Somente números!</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>CEP</ion-label>
+          <ion-input formControlName="cep" [(ngModel)]="dados.cep" type="number"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="cep.hasError('required') && (cep.touched || formSubmetido)">
+          <p class="erro"> Informe seu CEP. Somente números!</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Endereço</ion-label>
+          <ion-input formControlName="endereco" [(ngModel)]="dados.endereco" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="endereco.hasError('required') && (endereco.touched || formSubmetido)">
+          <p class="erro"> Informe seu endereco</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Número</ion-label>
+          <ion-input formControlName="numero" [(ngModel)]="dados.numero" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="numero.hasError('required') && (numero.touched || formSubmetido)">
+          <p class="erro"> Informe número da residência</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Bairro</ion-label>
+          <ion-input formControlName="bairro" [(ngModel)]="dados.bairro" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="bairro.hasError('required') && (bairro.touched || formSubmetido)">
+          <p class="erro"> Informe seu bairro</p>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Complemento</ion-label>
+          <ion-input formControlName="complemento" [(ngModel)]="dados.complemento" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <ion-input type="email" [(ngModel)]="dados.email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="( email.hasError('required') || email.hasError('email') ) && (email.touched || formSubmetido)">
+          <p class="erro"> Informe um email válido</p>
+        </ion-item>
+        <ion-item *ngIf="!this.estaLogado()">
+          <ion-label floating>Senha</ion-label>
+          <ion-input formControlName="senha" [(ngModel)]="dados.senha" type="password"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!this.estaLogado() && senha.hasError('required') && (senha.touched || formSubmetido)">
+          <p class="erro"> Informe uma senha</p>
+        </ion-item>
+        <ion-item *ngIf="!this.estaLogado()">
+          <ion-label floating>Confirma Senha</ion-label>
+          <ion-input formControlName="repetir_senha" type="password"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!this.estaLogado() && repetir_senha.hasError('required') && (repetir_senha.touched || formSubmetido)">
+          <p class="erro"> Confirme a senha</p>
+        </ion-item>
+      </ion-list>
+      <button *ngIf="!this.estaLogado()" (click)="criarConta()" ion-button full color="secondary">Cadastrar</button>
+      <button *ngIf="this.estaLogado()" (click)="alterarConta()" ion-button full color="secondary">Gravar alteração</button>
+      <button *ngIf="!this.estaLogado()" (click)="irLoginPage()" ion-button full color="light">Login</button>
+    </ion-card-header>
+  </form>
+</ion-content>

@@ -1,18 +1,118 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Delivery</ion-title>
+    </ion-navbar>
+    <ion-searchbar placeholder="Buscar" (ionInput)="getItems($event)"></ion-searchbar>
+  </ion-toolbar>
+  <!--<ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="opcao">
+      <ion-segment-button (click)="buscarItens();" id="cardapio" value="cardapio">
+        Cardápio
+      </ion-segment-button>
+      <ion-segment-button value="avaliacoes">
+        Avaliações
+      </ion-segment-button>
+      <ion-segment-button value="informacoes">
+        informacões
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>-->
+
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<!--Botão do carrinho-->
+<ion-fab right middle *ngIf="!this.provedor.carrinhoVazio()">
+  <button (click)="irCarrinho()" ion-fab color="primary">
+    <ion-icon name="cart"></ion-icon>
+  </button>
+</ion-fab>
+<!--Fim botão carrinho-->
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+<ion-content >
+  <div [ngSwitch]="opcao">
+    <ion-list *ngSwitchCase="'cardapio'">
+     <ion-item-group *ngFor="let categoria of categorias">
+        <ion-item-divider class="categoria" ion-item><h2>{{categoria.nome}}</h2></ion-item-divider>
+        <div *ngFor="let item of itens">
+          <button ion-item *ngIf="categoria.nome == item.categoria" (click)="irAddcarrinho(item)">
+            <ion-item>
+              <!--<h2>{{item.id}} - {{item.nome}}</h2>-->
+              <ion-thumbnail *ngIf="item.imagem != ''" item-start>
+                <img src={{item.imagem}}>
+              </ion-thumbnail>
+              <h2>{{item.nome}}</h2>
+              <span class="ingredientes" *ngFor="let ing of item.ingredientes">
+                <i>{{ing.nome}};</i>
+              </span>
+              <p class="rs">R$ {{item.valor_unitario}}</p>
+            </ion-item>
+          </button>
+          <!--<ion-item>
+            <ion-thumbnail item-start>
+              <img src="https://painelfourclick.com.br/rdsalao/public/img/logo/5.jpg">
+            </ion-thumbnail>
+            <h2>Hot Dog</h2>
+            <p>Pão, salsicha, milho, ervilha, molho</p>
+            <p>R$10,00</p>
+            <button ion-button clear item-end>Detalhes</button>
+          </ion-item>-->
+        </div>
+      </ion-item-group>
+      
+    </ion-list>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+    <ion-list *ngSwitchCase="'avaliacoes'">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/img/thumbnail-kitten-1.jpg">
+        </ion-thumbnail>
+        <h2>Luna</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/img/thumbnail-kitten-3.jpg">
+        </ion-thumbnail>
+        <h2>Milo</h2>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'informacoes'">
+      <ion-card>
+        <ion-card-header>
+          Nosso jeito de trabalhar
+        </ion-card-header>
+        <ion-card-content>
+          Somos uma empresa que pensa na completa satisfação do cliente. Pratos elaborados com muito carinho e cuidado para agradar
+          ao seu paladar. Sinta o sabor da nossa comida.
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          Nossos horários de atendimento
+        </ion-card-header>
+        <ion-card-content>
+          Estamos trabalhando de terça à domingo, das 20 às 2hs.
+        </ion-card-content>
+      </ion-card>
+      <!--<ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/img/thumbnail-duckling-1.jpg">
+        </ion-thumbnail>
+        <h2>Daffy</h2>
+      </ion-item>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/img/thumbnail-duckling-2.jpg">
+        </ion-thumbnail>
+        <h2>Huey</h2>
+      </ion-item>-->
+
+    </ion-list>
+  </div>
 </ion-content>

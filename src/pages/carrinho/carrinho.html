@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Carrinho</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <h2 style="text-align: center" *ngIf="this.provedor.carrinhoVazio()">Carrinho vazio!</h2>
+  <button ion-item *ngFor="let item of carrinho" (click)="removeItem(item.chaveStorage)">
+  <!--<ion-item *ngFor="let item of carrinho">-->
+    <h2>{{item.nome}}</h2>
+    <span class="ingredientes" *ngFor="let ing of item.ingredientes">
+      <i *ngIf="ing.selecionado == true">{{ing.nome}};</i>
+    </span>
+    <!--<p class="">Quantidade: {{item.qtd}}</p>-->
+    <p>Obs: {{item.obs}}</p>
+    <p>Unitário:
+      <span class="rs"> R$ {{item.valor_unitario}} </span>
+      x {{item.qtd}}
+    </p>
+    <p>Subtotal:
+      <span class="rs"> R$ {{item.valor_total}}</span>
+    </p>
+  <!--</ion-item>-->
+  </button>
+  <hr>
+  <p *ngIf="total > 0" class="right rs">Total: R$ {{total}}</p>
+  
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="">
+    <ion-title>
+        <button (click)="this.verificaFormaRetirar()" ion-button full color="secondary">
+        <ion-icon name="cloud-upload"></ion-icon> Próximo
+      </button>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
