@@ -5,8 +5,8 @@ import 'rxjs/add/operator/timeout';
 import { ToastController, AlertController } from 'ionic-angular';
 @Injectable()
 export class ProvedorProvider {
-  //public url = "http://192.168.129.197/laravel/tele_entrega/public";
-  public url = "http://notavelsistemas.com/delivery/public";
+  public url = "http://127.0.0.1/tele/public";
+  //public url = "http://notavelsistemas.com/delivery/public";
 
   constructor(public http: Http,
     public toastCtrl: ToastController,

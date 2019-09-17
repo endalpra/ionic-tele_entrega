@@ -66,7 +66,7 @@ export class LoginPage {
             console.log(dado[0]);
           }
         }, error => {
-          loading.setContent("Erro desconhecido. Tente acessar novamente mais tarde!");
+          loading.setContent("Erro desconhecido. Tente acessar novamente mais tarde!" + error);
           setTimeout(() => {
             loading.dismiss();
           }, 3000);

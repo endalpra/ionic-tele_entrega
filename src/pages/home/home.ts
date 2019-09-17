@@ -70,15 +70,18 @@ export class HomePage {
     this.provedor.getFornecedor()
     .subscribe(
      data => {
-       var dados = JSON.parse((data as any)._body);
-        if(dados.msg_inicio_app != null && this.mostrar_aviso_horario){
-          const alert = this.alertCtrl.create({
-            title: 'Horário de atendimento',
-            message: dados.msg_inicio_app,
-            buttons: ['OK']
-          });
-          alert.present();
-          this.mostrar_aviso_horario = false;
+       if ((data as any)._body =! null && (data as any)._body != '')
+       {
+        var dados = JSON.parse((data as any)._body);
+          if(dados.msg_inicio_app != null && this.mostrar_aviso_horario){
+            const alert = this.alertCtrl.create({
+              title: 'Horário de atendimento',
+              message: dados.msg_inicio_app,
+              buttons: ['OK']
+            });
+            alert.present();
+            this.mostrar_aviso_horario = false;
+          }
         }
      }, error =>{
       console.log(error);

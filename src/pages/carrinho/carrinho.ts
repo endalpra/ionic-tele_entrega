@@ -76,15 +76,18 @@ export class CarrinhoPage {
   {
     this.provedor.getFornecedor()
     .subscribe((data) => {
-      var resposta = JSON.parse((data as any)._body);
-      
-      this.Fornecedor.endereco = resposta.endereco;
-      this.Fornecedor.cidade   = resposta.cidade;
-      this.Fornecedor.rua      = resposta.rua;
-      this.Fornecedor.numero   = resposta.numero;
-      this.Fornecedor.bairro   = resposta.bairro;
-      this.Fornecedor.cep      = resposta.cep;
-      this.Fornecedor.uf       = resposta.uf;
+      if ((data as any)._body =! null && (data as any)._body != '')
+      {
+        var resposta = JSON.parse((data as any)._body);
+        
+        this.Fornecedor.endereco = resposta.endereco;
+        this.Fornecedor.cidade   = resposta.cidade;
+        this.Fornecedor.rua      = resposta.rua;
+        this.Fornecedor.numero   = resposta.numero;
+        this.Fornecedor.bairro   = resposta.bairro;
+        this.Fornecedor.cep      = resposta.cep;
+        this.Fornecedor.uf       = resposta.uf;
+      }
     }, error => {
       this.provedor.aviso("Ocorreu um erro ao carregar dados do fornecedor!");
     })
