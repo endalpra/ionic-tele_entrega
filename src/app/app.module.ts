@@ -14,6 +14,7 @@ import { CarrinhoPage } from '../pages/carrinho/carrinho';
 import { LoginPage } from '../pages/login/login';
 import { CadastroPage } from '../pages/cadastro/cadastro';
 import { ResetarPage } from '../pages/resetar/resetar';
+import { SobrePage } from '../pages/sobre/sobre';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ResetarPage } from '../pages/resetar/resetar';
     LoginPage,
     CadastroPage,
     ResetarPage,
+    SobrePage
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,7 @@ import { ResetarPage } from '../pages/resetar/resetar';
     LoginPage, 
     CadastroPage,
     ResetarPage,
+    SobrePage
   ],
   providers: [
     SplashScreen,

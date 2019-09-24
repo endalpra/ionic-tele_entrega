@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Sobre</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngIf="this.Fornecedor.id !== null">
+    <ion-card-title>{{this.Fornecedor.fantasia}}</ion-card-title>
+    <ion-item>
+      Contato
+    </ion-item>
+    <ion-card-content>
+      <ion-item href="#" class="activated" *ngIf="this.Fornecedor.email">   
+        <ion-label>
+          <ion-icon name="at"></ion-icon>
+          E-mail: {{this.Fornecedor.email}}</ion-label>
+      </ion-item>      
+      <ion-item href="#" class="activated"  *ngIf="this.Fornecedor.telefone">  
+        <ion-label>
+          <ion-icon name="call" slot="start"></ion-icon>
+          Telefone: {{this.Fornecedor.telefone}}</ion-label>
+      </ion-item>
+      <ion-item href="#" class="activated"  *ngIf="this.Fornecedor.celular">
+        <ion-label>
+          <ion-icon name="call" slot="start"></ion-icon>
+          Celular: {{this.Fornecedor.celular}}</ion-label>
+      </ion-item>
+    </ion-card-content>
+    <ion-card-content>
+      Localizado em: {{this.Fornecedor.endereco}}, N° {{this.Fornecedor.numero}}, {{this.Fornecedor.bairro}}, {{this.Fornecedor.cidade}} 
+    </ion-card-content>
+  </ion-card>
+</ion-content>

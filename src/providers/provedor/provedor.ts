@@ -6,7 +6,7 @@ import { ToastController, AlertController } from 'ionic-angular';
 @Injectable()
 export class ProvedorProvider {
   public url = "http://127.0.0.1/tele/public";
-  //public url = "http://notavelsistemas.com/delivery/public";
+  //public url = "http://notavelsistemas.com/rodasuperdog/public";
 
   constructor(public http: Http,
     public toastCtrl: ToastController,
@@ -26,10 +26,8 @@ export class ProvedorProvider {
     return this.http.post(this.url + "/loginMobile", credential, options);
   }
 
-  public resetar_senha(email) {
-    console.log(email);
+  public resetar_senha(email) {    
     return this.http.get(this.url + "/password_resets/" + email).timeout(15000);
-
   }
 
   public getDadosConta(id) {
@@ -37,9 +35,9 @@ export class ProvedorProvider {
   }
 
   alterarDadosConta(dados) {
-    //console.log(dados);
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     let options = new RequestOptions({ headers: headers, method: "post" });
+
     return this.http.post(this.url + "/alterarContaMobile", dados, options);
   }
 

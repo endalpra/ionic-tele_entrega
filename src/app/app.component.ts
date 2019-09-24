@@ -6,6 +6,7 @@ import { HomePage } from '../pages/home/home';
 import { CarrinhoPage } from '../pages/carrinho/carrinho';
 import { LoginPage } from '../pages/login/login';
 import { CadastroPage } from '../pages/cadastro/cadastro';
+import { SobrePage } from '../pages/sobre/sobre';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +25,8 @@ export class MyApp {
     this.pages = [
       { title: 'Cardápio', component: HomePage },
       { title: 'Carrinho', component: CarrinhoPage },
-      { title: 'Conta', component: CadastroPage }
+      { title: 'Conta', component: CadastroPage },
+      { title: 'Sobre', component: SobrePage}
     ];
 
   }

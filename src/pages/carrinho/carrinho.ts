@@ -76,7 +76,7 @@ export class CarrinhoPage {
   {
     this.provedor.getFornecedor()
     .subscribe((data) => {
-      if ((data as any)._body =! null && (data as any)._body != '')
+      if ((data as any)._body !== '')
       {
         var resposta = JSON.parse((data as any)._body);
         

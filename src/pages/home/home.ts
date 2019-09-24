@@ -54,7 +54,7 @@ export class HomePage {
         return (item.nome.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-}
+  }
 
   irAddcarrinho(item) {
     this.navCtrl.push(AddcarrinhoPage, {
@@ -70,23 +70,31 @@ export class HomePage {
     this.provedor.getFornecedor()
     .subscribe(
      data => {
-       if ((data as any)._body =! null && (data as any)._body != '')
+       if ((data as any)._body !== '')
        {
-        var dados = JSON.parse((data as any)._body);
+          var dados = JSON.parse((data as any)._body);
+         
           if(dados.msg_inicio_app != null && this.mostrar_aviso_horario){
             const alert = this.alertCtrl.create({
-              title: 'Horário de atendimento',
+              title: dados.titulo_msg_inicio_app || 'Aviso',
               message: dados.msg_inicio_app,
               buttons: ['OK']
             });
             alert.present();
             this.mostrar_aviso_horario = false;
           }
+
+          this.gravarFornecedorLocalStorage(dados);
         }
-     }, error =>{
-      console.log(error);
+     }, error => {
+        console.log(error);
      }     
     )
+  }
+
+  public gravarFornecedorLocalStorage(dados)
+  {
+    localStorage.setItem('Fornecedor', JSON.stringify(dados));
   }
 
   public buscarItens() {
@@ -146,7 +154,5 @@ export class HomePage {
         console.log(error);
       }
       )
-
-      //console.log(this.itens);
   } 
 }
