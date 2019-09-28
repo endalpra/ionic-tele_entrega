@@ -12,21 +12,24 @@
 <ion-content padding>
   <h2 style="text-align: center" *ngIf="this.provedor.carrinhoVazio()">Carrinho vazio!</h2>
   <button ion-item *ngFor="let item of carrinho" (click)="removeItem(item.chaveStorage)">
-  <!--<ion-item *ngFor="let item of carrinho">-->
     <h2>{{item.nome}}</h2>
     <span class="ingredientes" *ngFor="let ing of item.ingredientes">
-      <i *ngIf="ing.selecionado == true">{{ing.nome}};</i>
+      <i *ngIf="ing.selecionado == true">
+        {{ing.nome}};
+        <!--<span class="rs" *ngIf="ing.valor !== null"> (+ R$ {{ing.valor}})</span>-->
+      </i>
     </span>
-    <!--<p class="">Quantidade: {{item.qtd}}</p>-->
-    <p>Obs: {{item.obs}}</p>
+    <p *ngIf="item.obs !== ''">Obs: {{item.obs}}</p>
     <p>Unitário:
       <span class="rs"> R$ {{item.valor_unitario}} </span>
-      x {{item.qtd}}
+      x {{item.qtd}}      
+    </p>
+    <p *ngIf="item.valor_total - (item.valor_unitario * item.qtd) > 0">
+      Adicionais: <span class="rs">R$ {{item.valor_total - (item.valor_unitario * item.qtd)}}</span> 
     </p>
     <p>Subtotal:
       <span class="rs"> R$ {{item.valor_total}}</span>
     </p>
-  <!--</ion-item>-->
   </button>
   <hr>
   <p *ngIf="total > 0" class="right rs">Total: R$ {{total}}</p>
@@ -36,7 +39,7 @@
   <ion-toolbar color="">
     <ion-title>
         <button (click)="this.verificaFormaRetirar()" ion-button full color="secondary">
-        <ion-icon name="cloud-upload"></ion-icon> Próximo
+        <ion-icon name="cloud-upload"></ion-icon> Fazer Pedido
       </button>
     </ion-title>
   </ion-toolbar>

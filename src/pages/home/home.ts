@@ -17,7 +17,7 @@ export class HomePage {
   itens: Array<{
     id: number, chaveStorage: string, nome: string,
     valor_unitario: number, qtd: number, valor_total: number, nro_item: number, categoria: string, obs: string
-    ingredientes: Array<{ id: number, nome: string }>, imagem: string
+    ingredientes: Array<{ id: number, nome: string, valor: number }>, imagem: string
   }>;
   registrosBdLocal: any;
   categorias: Array<{ nome: string }>;
@@ -109,13 +109,14 @@ export class HomePage {
       data => {
         loading.dismiss();
         var dados = JSON.parse((data as any)._body);
-        var ing: Array<{ id: number, nome: string, selecionado: boolean }>;
+        var ing: Array<{ id: number, nome: string, valor: number, selecionado: boolean }>;
         dados.forEach(dado => {
           ing = [];
           dado.ingredientes.forEach(i => {
             ing.push({
               id: i.id,
               nome: i.nome,
+              valor: i.valor,
               selecionado: false
             })
           });
@@ -151,8 +152,8 @@ export class HomePage {
         setTimeout(() => {
           loading.dismiss();
         }, 3000);
-        console.log(error);
+        //console.log(error);
       }
-      )
+      )   
   } 
 }

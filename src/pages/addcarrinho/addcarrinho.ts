@@ -15,7 +15,7 @@ export class AddcarrinhoPage {
   ingredientes: Array<{}>;
   obs: any;
   listPref: Array<{}>;
-  checkItems: {};
+  checkIngredientes: {};
   registrosBdLocal: any;
 
   constructor(public navCtrl: NavController,
@@ -26,14 +26,13 @@ export class AddcarrinhoPage {
     this.qtd_item = 1;
     this.total = this.selectedItem.valor_unitario;
     this.ingredientes = [];
-    this.checkItems = {};
+    this.checkIngredientes = {};
     this.registrosBdLocal = '';
     this.obs = '';
   }
 
   ionViewDidLoad() {
     this.registrosBdLocal = localStorage;
-   
   }
 
   nro_item(id){
@@ -51,8 +50,9 @@ export class AddcarrinhoPage {
   addCarrinho() {
     this.selectedItem.ingredientes.forEach(ing => {
       ing.selecionado = false; //Limpa a variavel
-      for (var i in this.checkItems) {//Percorre o array de itens checados
-        if (this.checkItems[i] == true && ing.nome == i) {
+
+      for (var i in this.checkIngredientes) {//Percorre o array de ingredientes
+        if (this.checkIngredientes[i] == true && ing.id == i) {
           ing.selecionado = true
         }
       }
@@ -77,6 +77,7 @@ export class AddcarrinhoPage {
     this.qtd_item++;
     this.recalculaTotal();
   }
+
   subQtd() {
     if (this.qtd_item > 1) {
       this.qtd_item--;
@@ -85,7 +86,20 @@ export class AddcarrinhoPage {
   }
 
   recalculaTotal() {
-    this.total = parseFloat((this.selectedItem.valor_unitario * this.qtd_item).toFixed(2));
+    let valorIngredientes = 0;
+
+    //Encontrar o valor dos ingredientes para o item
+    this.selectedItem.ingredientes.forEach(ing => {
+      for (var i in this.checkIngredientes) {//Percorre o array de ingredientes
+        if (this.checkIngredientes[i] == true && ing.id == i) {
+          if (ing.valor !== null && ing.valor !== '')
+            valorIngredientes += parseFloat(ing.valor);
+        }
+      }
+    });
+
+    //Soma valorIngredientes ao valor_unitario do item e multiplica pelo qtd_item
+    this.total = parseFloat(((this.selectedItem.valor_unitario + valorIngredientes) * this.qtd_item).toFixed(2));
   }
 
   irCarrinho() {

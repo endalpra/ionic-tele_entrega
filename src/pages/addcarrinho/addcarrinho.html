@@ -18,18 +18,17 @@
 <ion-content>
 
   <ion-card>
-    <!--<ion-item *ngFor="let ing of selectedItem.ingredientes">
-      <ion-label>{{ing.nome}}</ion-label>
-      <ion-checkbox value="ing.nome" color="primary" checked="true"></ion-checkbox>
-    </ion-item>-->
     <ion-item *ngFor="let ing of selectedItem.ingredientes">
-      <ion-label>{{ ing.nome }}</ion-label>
-      <ion-checkbox [(ngModel)]="checkItems[ing.nome]" value="ing.nome" [checked]="ing.nome"></ion-checkbox>
+      <ion-label>
+        {{ ing.nome }} 
+        <span class="rs" *ngIf="ing.valor !== null"> (+ R$ {{ing.valor}})</span>
+      </ion-label>
+      <ion-checkbox (click)="recalculaTotal()" [(ngModel)]="checkIngredientes[ing.id]" [checked]="ing.id"></ion-checkbox>
     </ion-item>
     
     <ion-item>
       <ion-textarea [(ngModel)]="obs" placeholder="Se desejar, escreva alguma observação para este item ..."></ion-textarea>
-  </ion-item>
+    </ion-item>
 
     <div style="margin-left: 17px">
       <button (click)='subQtd()' small ion-button icon-only>

@@ -212,7 +212,6 @@ export class CarrinhoPage {
     prompt.present();
   }
 
-
   verificaEndEntrega() {
     const loading = this.loadingController.create({
       content: 'Carregando endereço para entrega...'
@@ -252,7 +251,6 @@ export class CarrinhoPage {
         this.provedor.aviso("Ocorreu um erro ao carregar dados de endereço!");
       })
   }
-
 
   enviarPedido() {
     const loading = this.loadingController.create({
