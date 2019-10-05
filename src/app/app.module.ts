@@ -31,7 +31,7 @@ import { SobrePage } from '../pages/sobre/sobre';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -48,7 +48,7 @@ import { SobrePage } from '../pages/sobre/sobre';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ProvedorProvider,
-    Geolocation
+    Geolocation  
   ]
 })
 export class AppModule {}

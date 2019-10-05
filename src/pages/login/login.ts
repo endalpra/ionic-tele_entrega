@@ -34,13 +34,8 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    this.estaLogado();
-  }
-
-  estaLogado() {
-    if (localStorage.getItem('logado') == 'true') {
+    if (this.provedor.isUsuarioLogado())
       this.navCtrl.setRoot(HomePage);
-    }
   }
 
   entrar() {
@@ -52,21 +47,15 @@ export class LoginPage {
       loading.present();
       this.provedor.login(this.credential)
         .subscribe((data) => {
-          var dado = JSON.parse((data as any)._body);
-          if (dado[0] == 'ok') {
-            localStorage.setItem('identificador', dado[1] + '');
-            localStorage.setItem('logado', 'true');
-            this.navCtrl.setRoot(HomePage);
-            loading.dismiss();
-          } else {
-            loading.setContent(dado[0]);
-            setTimeout(() => {
-              loading.dismiss();
-            }, 3000);
-            console.log(dado[0]);
-          }
+          var token = (data as any)._body;
+
+          localStorage.setItem('token', token);
+
+          this.navCtrl.setRoot(HomePage);
+
+          loading.dismiss();
         }, error => {
-          loading.setContent("Erro desconhecido. Tente acessar novamente mais tarde!" + error);
+          loading.setContent("Erro ao logar: " + error._body);
           setTimeout(() => {
             loading.dismiss();
           }, 3000);
@@ -81,5 +70,4 @@ export class LoginPage {
   irResetarPage(){
     this.navCtrl.push(ResetarPage);
   }
-
 }

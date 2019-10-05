@@ -12,8 +12,7 @@ export class ResetarPage {
   formgroup: FormGroup;
   email: AbstractControl;
   formSubmetido: boolean;
-  public credential = { email: '' };
-  sucesso: boolean;
+  public credential = { email: '' };;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -24,12 +23,9 @@ export class ResetarPage {
       email: ['', [Validators.required, Validators.email]]
     });
     this.email = this.formgroup.controls['email'];
-    this.sucesso = false;
   }
 
-  ionViewDidLoad() {
-
-  }
+  ionViewDidLoad() {}
 
   enviar(){
     this.formSubmetido = true;
@@ -40,32 +36,17 @@ export class ResetarPage {
       loading.present();
       this.provedor.resetar_senha(this.credential.email)
         .subscribe((data) => {
-          var dado = JSON.parse((data as any)._body);
-          if (dado == 1) {
-            loading.setContent("Requisição enviada. Verifique sua caixa de email e resete sua senha!");
-            setTimeout(() => {
-              loading.dismiss();
-            }, 10000);
-            this.sucesso = true;
-            loading.dismiss();
-          } else if(dado == 2) {
-            loading.setContent("Email informado não existe na nossa base de dados. Favor verifique!");
-            setTimeout(() => {
-              loading.dismiss();
-            }, 5000);            
-          }else{
-            loading.setContent("Erro desconhecido. Tente novamente mais tarde!");
-            setTimeout(() => {
-              loading.dismiss();
-            }, 3000);
-          }
+          var resposta = (data as any)._body;
+          
+          this.provedor.aviso(resposta);
+
+          loading.dismiss();          
         }, error => {
-          loading.setContent("Erro desconhecido. Tente novamente mais tarde!");
+          loading.setContent("Erro ao requisitar recuparação de senha: " + error._body);
           setTimeout(() => {
             loading.dismiss();
           }, 3000);
         })
     }
   }
-
 }

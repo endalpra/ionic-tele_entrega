@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-navbar>
-      <button *ngIf="this.estaLogado()" ion-button menuToggle>
+      <button *ngIf="this.provedor.isUsuarioLogado()" ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title *ngIf="!this.estaLogado()">Cadastro</ion-title>
-      <ion-title *ngIf="this.estaLogado()">Conta</ion-title>
+      <ion-title *ngIf="!this.provedor.isUsuarioLogado()">Cadastro</ion-title>
+      <ion-title *ngIf="this.provedor.isUsuarioLogado()">Conta</ion-title>
     </ion-navbar>
   </ion-toolbar>
 </ion-header>
@@ -67,24 +67,24 @@
         <ion-item *ngIf="( email.hasError('required') || email.hasError('email') ) && (email.touched || formSubmetido)">
           <p class="erro"> Informe um email válido</p>
         </ion-item>
-        <ion-item *ngIf="!this.estaLogado()">
+        <ion-item *ngIf="!this.provedor.isUsuarioLogado()">
           <ion-label floating>Senha</ion-label>
           <ion-input formControlName="senha" [(ngModel)]="dados.senha" type="password"></ion-input>
         </ion-item>
-        <ion-item *ngIf="!this.estaLogado() && senha.hasError('required') && (senha.touched || formSubmetido)">
+        <ion-item *ngIf="!this.provedor.isUsuarioLogado() && senha.hasError('required') && (senha.touched || formSubmetido)">
           <p class="erro"> Informe uma senha</p>
         </ion-item>
-        <ion-item *ngIf="!this.estaLogado()">
+        <ion-item *ngIf="!this.provedor.isUsuarioLogado()">
           <ion-label floating>Confirma Senha</ion-label>
           <ion-input formControlName="repetir_senha" type="password"></ion-input>
         </ion-item>
-        <ion-item *ngIf="!this.estaLogado() && repetir_senha.hasError('required') && (repetir_senha.touched || formSubmetido)">
+        <ion-item *ngIf="!this.provedor.isUsuarioLogado() && repetir_senha.hasError('required') && (repetir_senha.touched || formSubmetido)">
           <p class="erro"> Confirme a senha</p>
         </ion-item>
       </ion-list>
-      <button *ngIf="!this.estaLogado()" (click)="criarConta()" ion-button full color="secondary">Cadastrar</button>
-      <button *ngIf="this.estaLogado()" (click)="alterarConta()" ion-button full color="secondary">Gravar alteração</button>
-      <button *ngIf="!this.estaLogado()" (click)="irLoginPage()" ion-button full color="light">Login</button>
+      <button *ngIf="!this.provedor.isUsuarioLogado()" (click)="criarConta()" ion-button full color="secondary">Cadastrar</button>
+      <button *ngIf="this.provedor.isUsuarioLogado()" (click)="alterarConta()" ion-button full color="secondary">Gravar alteração</button>
+      <button *ngIf="!this.provedor.isUsuarioLogado()" (click)="irLoginPage()" ion-button full color="light">Login</button>
     </ion-card-header>
   </form>
 </ion-content>

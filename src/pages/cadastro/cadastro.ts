@@ -26,9 +26,8 @@ export class CadastroPage {
   latitude: number = 0;
   longitude: number = 0;
   formSubmetido: boolean;
-  public dados = { id: '', nome: '', email: '', senha: '', telefone: '', cep: '', endereco: '', numero: '', bairro: '', complemento: '', latitude: 0, longitude: 0 };
-  public usuario = {id: '', nome: '', email: '', telefone: '', cep: '', endereco: '', bairro: '', numero:'', complemento: '', latitude: '', longitude: ''
-  };
+  public dados   = { nome: '', email: '', senha: '', telefone: '', cep: '', endereco: '', numero: '', bairro: '', complemento: '', latitude: 0, longitude: 0};
+  public usuario = { nome: '', email: '', telefone: '', cep: '', endereco: '', bairro: '', numero:'', complemento: '', latitude: '', longitude: ''};
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,7 +36,7 @@ export class CadastroPage {
     public formbuilder: FormBuilder,
     private geolocation: Geolocation) {
     
-    if (!this.estaLogado()) {
+    if (!this.provedor.isUsuarioLogado()) {
       this.formgroup = formbuilder.group({
         email: ['', Validators.required],
         nome: ['', Validators.required],
@@ -83,8 +82,8 @@ export class CadastroPage {
   }
 
   ionViewDidLoad() {
-    if (this.estaLogado())
-      this.buscarDadosConta(localStorage.getItem('identificador'));
+    if (this.provedor.isUsuarioLogado())
+      this.buscarDadosConta();
 
       this.geolocation.getCurrentPosition().then((resp) => {
         this.dados.latitude = resp.coords.latitude;
@@ -94,8 +93,8 @@ export class CadastroPage {
        });
   }
 
+  //Não está sendo usado - Deixei método para o caso de ser usado futuramente
   gravaDadosContaLocal() {
-    this.usuario.id = localStorage.getItem('identificador');
     this.usuario.nome = this.dados.nome;
     this.usuario.email = this.dados.email;
     this.usuario.telefone = this.dados.telefone;
@@ -109,16 +108,17 @@ export class CadastroPage {
     localStorage.setItem('usuario' +'', JSON.stringify(this.usuario));
   }
 
-  buscarDadosConta(id) {
+  buscarDadosConta() {
     const loading = this.loadingController.create({
       content: 'Obtendo dados da conta...'
     });
     loading.present();
-    this.provedor.getDadosConta(id)
+    this.provedor.getDadosConta()
       .subscribe((data) => {
         loading.dismiss();
+
         var user = JSON.parse((data as any)._body);
-        this.dados.id = localStorage.getItem('identificador');
+
         this.dados.bairro = user.bairro;
         this.dados.telefone = user.telefone;
         this.dados.cep = user.cep;
@@ -128,7 +128,7 @@ export class CadastroPage {
         this.dados.nome = user.name;
         this.dados.numero = user.numero;
       }, error => {
-        loading.setContent('Erro ao obter dados!');
+        loading.setContent('Erro ao obter dados: ' + error._body);
         setTimeout(() => {
           loading.dismiss();
         }, 3000);
@@ -144,21 +144,12 @@ export class CadastroPage {
       loading.present();
       this.provedor.alterarDadosConta(this.dados)
         .subscribe((data) => {
-          var dado = JSON.parse((data as any)._body);
-          if (dado[0] == 'ok') {
-            loading.dismiss();
-            this.gravaDadosContaLocal();
-            this.provedor.aviso('Dados alterados com sucesso!');
-            //this.navCtrl.setRoot(HomePage);
-          } else {
-            loading.setContent(dado[0]);
-            setTimeout(() => {
-              loading.dismiss();
-            }, 3000);
-            console.log(dado[0]);
-          }
+          var token = (data as any)._body;          
+          localStorage.setItem('token', token);
+          loading.dismiss();          
+          this.provedor.aviso('Dados alterados com sucesso!');         
         }, error => {
-          loading.setContent(error);
+          loading.setContent('Erro ao alterar conta: ' + error._body);
           setTimeout(() => {
             loading.dismiss();
           }, 3000);
@@ -166,12 +157,6 @@ export class CadastroPage {
     } else {
       this.provedor.aviso("Formulário não está preenchido corretamente. Favor verifique!");
     }
-  }
-
-  estaLogado() {
-    if (localStorage.getItem('logado') == 'true')
-      return true;
-    return false;
   }
 
   criarConta() {
@@ -183,29 +168,18 @@ export class CadastroPage {
       loading.present();
       this.provedor.criaConta(this.dados)
         .subscribe((data) => {
-          var dado = JSON.parse((data as any)._body);
-          if (dado[0] == 'ok') {
-            localStorage.setItem('identificador', dado[1] + '');
-            localStorage.setItem('logado', 'true');
-            this.gravaDadosContaLocal();
-            loading.dismiss();
-            this.navCtrl.setRoot(HomePage);
-          } else {
-            loading.setContent(dado[0]);
-            setTimeout(() => {
-              loading.dismiss();
-            }, 3000);
-            console.log(dado[0]);
-          }
-        }, error => {
-          loading.setContent(error);
+          var token = (data as any)._body;
+          localStorage.setItem('token', token);
+          loading.dismiss();
+          this.navCtrl.setRoot(HomePage);         
+        }, error => {          
+          loading.setContent('Erro ao criar conta: ' + error._body);
           setTimeout(() => {
             loading.dismiss();
           }, 3000);
         })
     } else {
       this.provedor.aviso("Formulário não está preenchido corretamente. Favor verifique!");
-      console.log("Formulário não está preenchido corretamente. Favor verifique!");
     }
   }
 

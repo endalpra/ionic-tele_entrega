@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { ProvedorProvider } from '../../providers/provedor/provedor';
 import { CadastroPage } from '../cadastro/cadastro';
 
@@ -22,7 +22,6 @@ export class CarrinhoPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public provedor: ProvedorProvider,
-    public toastCtrl: ToastController,
     public loadingController: LoadingController) {
     this.carrinho   = [];
     this.total      = 0;
@@ -121,18 +120,15 @@ export class CarrinhoPage {
         text: 'OK',
         handler: data => {
           this.forma_retirar = data;
-          if (data == "Delivery") {
-            //this.verificaFormaPgto();
+          if (data == "Delivery") 
             this.verificaEndEntrega()
-          } else {
+          else
             this.enviarPedido();
-          }
         }
       });
       radioAlert.present();
-    } else {
-      this.provedor.aviso("Seu carrinho está vazio!");
-    }
+    } else 
+        this.provedor.aviso("Seu carrinho está vazio!");
   }
 
   verificaFormaPgto() {
@@ -217,7 +213,7 @@ export class CarrinhoPage {
       content: 'Carregando endereço para entrega...'
     });
     loading.present();
-    this.provedor.getDadosConta(localStorage.getItem('identificador'))
+    this.provedor.getDadosConta()
       .subscribe((data) => {
         var resposta = JSON.parse((data as any)._body);
         this.total_com_tele = this.total;
@@ -259,21 +255,13 @@ export class CarrinhoPage {
     loading.present();
     this.provedor.enviarPedido(this.carrinho, this.forma_retirar, this.forma_pgto, this.troco_para, this.total_com_tele, this.preco_tele)
       .subscribe((data) => {
-        var resposta = JSON.parse((data as any)._body);
-        if (resposta.pedido_id != null) {
-          loading.dismiss();
-          this.provedor.aviso("Seu pedido foi enviado com sucesso!");
-          this.provedor.esvaziaCarrinho();
-          this.navCtrl.setRoot(this.navCtrl.getActive().component);
-        } else {
-          loading.dismiss();
-          console.log(resposta);
-          this.provedor.aviso("Ocorreu um erro ao enviar seu pedido!");
-        }
+        this.provedor.aviso("Seu pedido foi enviado com sucesso!");
+        this.provedor.esvaziaCarrinho();
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
+        loading.dismiss();
       }, error => {
         loading.dismiss();
-        console.log(error);
-        this.provedor.aviso("Ocorreu um erro ao enviar seu pedido!");
+        this.provedor.aviso("Ocorreu erro ao enviar seu pedido: " + error._body);
       })
   }
 }
